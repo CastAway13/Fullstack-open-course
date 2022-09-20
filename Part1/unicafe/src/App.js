@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
-const StatisticLine = props => 
+const StatisticLine = ({ name, value, operator }) => 
 <tr>
-<td>{props.name}</td>
-<td>{props.value}{props.operator}</td>
+<td>{name}</td>
+<td>{value}{operator}</td>
 </tr>
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
