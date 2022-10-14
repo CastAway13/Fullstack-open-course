@@ -1,10 +1,12 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import CountryInformation from './components/CountryInformation'
 
 function App() {
   const [countries, setCountries] = useState([])
   const [countriesSearch, setCountriesSearch] = useState('')
+  const [countriesToShow, setCountriesToShow] = useState([])
 
   const hook = () => {
     console.log('effect')
@@ -19,19 +21,18 @@ function App() {
   useEffect(hook, [])
 
   const handlecountriesSearch = (event) =>{
-    console.log(event.target.value)
     setCountriesSearch(event.target.value)
+    setCountriesToShow (countries.filter(countries => 
+      countries.name.common.toLowerCase().includes(countriesSearch.toLowerCase())))
   }
-
-  const countriesToShow = countries.filter(countries => 
-    countries.name.common.toLowerCase().includes(countriesSearch.toLowerCase()))
 
   return (
     <div>
       Find countries: <input value={countriesSearch} onChange={handlecountriesSearch}></input>
-      {countriesToShow.length <= 10 ? 
-        countriesToShow.map(country => <li>{country.name.common}</li>) : 
-        <div>Too many matches, specify another filter.</div>}                
+      {countriesToShow.length === 1 ? <CountryInformation country = {countriesToShow[0]}></CountryInformation> : null}
+      {countriesToShow.length <= 10 ?
+        countriesToShow.map(country => <li key={country.name.common}>{country.name.common}</li>) :
+        <div>Too many matches, specify another filter.</div>}
     </div>
     
   )
